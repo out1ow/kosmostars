@@ -48,7 +48,6 @@ class Board:  # Класс игрового поля
         variable.side = 1 - variable.side
 
         self.all_ui.sprites()[2].change_side()
-        print(variable.side)
 
         for i in self.all_units.sprites():
             i.is_moved = False

@@ -65,11 +65,9 @@ class Trooper(Unit):  # Класс обычного штурмовика
         self.cost = 100
 
         if self.side == RES:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/res_trooper/idle.png')
+            self.image = pygame.image.load('sources/sprites/res_trooper/idle.png')
         else:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/sep_trooper/idle.png')
+            self.image = pygame.image.load('sources/sprites/sep_trooper/idle.png')
         self.rect = self.image.get_rect()
 
 
@@ -83,11 +81,9 @@ class ElitTrooper(Unit):  # Класс элитного штурмовика
         self.cost = 200
 
         if self.side == RES:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/res_elite_trooper/idle.png')
+            self.image = pygame.image.load('sources/sprites/res_elite_trooper/idle.png')
         else:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/sep_elit_trooper/idle.png')
+            self.image = pygame.image.load('sources/sprites/sep_elit_trooper/idle.png')
         self.rect = self.image.get_rect()
 
 
@@ -101,9 +97,7 @@ class Hero(Unit):  # Класс героя
         self.cost = 400
 
         if self.side == RES:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/res_hero/idle.png')
+            self.image = pygame.image.load('sources/sprites/res_hero/idle.png')
         else:
-            self.image = pygame.image.load('C:/Users/polee/PycharmProjects/sw_bf_3/sources'
-                                           '/sprites/sep_hero/idle.png')
+            self.image = pygame.image.load('sources/sprites/sep_hero/idle.png')
         self.rect = self.image.get_rect()
