@@ -23,5 +23,5 @@ game_state = 0
 pygame.init()
 size = WIDTH, HEIGHT
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption('STAR WARS Battlefront 3')
+pygame.display.set_caption('KOSMOSTARS')
 pygame.display.set_icon(pygame.image.load('sources/icon/icon.png'))
