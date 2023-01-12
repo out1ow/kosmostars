@@ -1,5 +1,6 @@
 import pygame
 
+import variable
 from variable import RES, SEP
 
 
@@ -7,7 +8,6 @@ class KeyPoint(pygame.sprite.Sprite):
     # Класс контрольной точки
     def __init__(self):
         super().__init__()
-
         self.res_sprite = pygame.image.load('sources/sprites/key_points/res_point.png')
         self.sep_sprite = pygame.image.load('sources/sprites/key_points/sep_point.png')
         self.free_sprite = pygame.image.load('sources/sprites/key_points/free_point.png')
@@ -19,7 +19,9 @@ class KeyPoint(pygame.sprite.Sprite):
     def change_side(self, side=None):
         if side == RES:
             self.image = self.res_sprite
+            variable.res_count += 1
         elif side == SEP:
             self.image = self.sep_sprite
+            variable.sep_count += 1
         else:
             self.image = self.free_sprite

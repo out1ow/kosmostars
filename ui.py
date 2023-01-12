@@ -62,3 +62,13 @@ class GiveUp(Button):
         self.rect = self.image.get_rect()
         self.rect.x = 900
         self.rect.y = 600
+
+
+class UnitMenu(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/unit_menu_back.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 700
+        self.rect.y = 100

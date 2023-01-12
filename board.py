@@ -2,7 +2,7 @@ import pygame
 
 import variable
 from key_point import KeyPoint
-from ui import CurrentMove, MakeMove, GiveUp
+from ui import CurrentMove, MakeMove, GiveUp, UnitMenu
 from units import Trooper, ElitTrooper, Hero
 from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED
 
@@ -33,7 +33,7 @@ class Board:  # Класс игрового поля
                     unit.rect.y = y * 64 - 32
 
         self.all_key_points = pygame.sprite.Group(KeyPoint())
-        self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove())
+        self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu())
 
     def render(self):
         screen.fill(BLACK)
@@ -48,10 +48,22 @@ class Board:  # Класс игрового поля
         variable.side = 1 - variable.side
 
         self.all_ui.sprites()[2].change_side()
+        variable.move_count += 1
 
         for i in self.all_units.sprites():
             i.is_moved = False
             i.is_attacked = False
+
+        if self.field[4][4] is not None:
+            self.all_key_points.sprites()[0].change_side(self.field[4][4].get_side())
+        elif self.field[4][5] is not None:
+            self.all_key_points.sprites()[0].change_side(self.field[4][5].get_side())
+        elif self.field[5][4] is not None:
+            self.all_key_points.sprites()[0].change_side(self.field[5][4].get_side())
+        elif self.field[5][5] is not None:
+            self.all_key_points.sprites()[0].change_side(self.field[5][5].get_side())
+        else:
+            self.all_key_points.sprites()[0].change_side()
 
     def spawn(self, cell, side, unit_class):  # Спавнит нового юнита в конкретной точке
         pass
