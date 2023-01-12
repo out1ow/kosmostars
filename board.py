@@ -12,13 +12,13 @@ class Board:  # Класс игрового поля
         self.field = []
         for _ in range(10):
             self.field.append([None] * 10)  # Список содержащий все клетки поля
-        self.field[0][0] = Trooper(RES)
+        self.field[0][1] = Trooper(RES)
         self.field[1][0] = ElitTrooper(RES)
-        self.field[2][0] = Hero(RES)
+        self.field[8][8] = Hero(RES)
 
-        self.field[0][3] = ElitTrooper(SEP)
-        self.field[1][3] = Trooper(SEP)
-        self.field[2][3] = Hero(SEP)
+        self.field[9][8] = ElitTrooper(SEP)
+        self.field[8][9] = Trooper(SEP)
+        self.field[9][9] = Hero(SEP)
 
         self.selected_unit = None
         self.selected_cell = None

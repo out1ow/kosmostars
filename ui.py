@@ -71,4 +71,4 @@ class UnitMenu(pygame.sprite.Sprite):
         self.image = pygame.image.load('sources/sprites/ui/unit_menu/unit_menu_back.png')
         self.rect = self.image.get_rect()
         self.rect.x = 700
-        self.rect.y = 100
+        self.rect.y = 130
