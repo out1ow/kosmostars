@@ -30,6 +30,7 @@ def main():
                     else:
                         board.all_ui.sprites()[1].unselect()
                     board.all_ui.draw(screen)
+                    board.units_cards.draw(screen)
 
             pygame.display.flip()
             clock.tick(FPS)

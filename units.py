@@ -35,8 +35,6 @@ class Unit(pygame.sprite.Sprite):
     def can_attack(self, board, cell1, cell2):  # Проверяет может ли юнит атаковать выбранную клетку
         x1, y1 = cell1
         x2, y2 = cell2
-        if board.field[y2][x2] == board.field[y1][x1]:  # Можно ничего не атаковать
-            return True
         if board.field[y2][x2] is None:  # Если целевая клетка пуста
             return False
         if board.field[y2][x2].get_side() == self.get_side():  # Если целевая клетк занята вражеским юнитом
@@ -59,7 +57,7 @@ class Trooper(Unit):  # Класс обычного штурмовика
     def __init__(self, side):
         super().__init__(side)
         self.hp = 100
-        self.damage = 20
+        self.damage = 30
         self.attack_distance = 3
         self.move_distance = 2
         self.cost = 100
@@ -75,7 +73,7 @@ class ElitTrooper(Unit):  # Класс элитного штурмовика
     def __init__(self, side):
         super().__init__(side)
         self.hp = 100
-        self.damage = 30
+        self.damage = 50
         self.attack_distance = 3
         self.move_distance = 2
         self.cost = 200
@@ -91,7 +89,7 @@ class Hero(Unit):  # Класс героя
     def __init__(self, side):
         super().__init__(side)
         self.hp = 100
-        self.damage = 50
+        self.damage = 80
         self.attack_distance = 1
         self.move_distance = 2
         self.cost = 400

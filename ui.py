@@ -72,3 +72,68 @@ class UnitMenu(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 700
         self.rect.y = 130
+
+
+class UnitCard(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+
+class ResTrooperCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/res_trooper_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 140
+
+
+class ResElitTrooperCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/res_elit_trooper_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 215
+
+
+class ResHeroCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/res_hero_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 290
+
+
+class SepTrooperCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/sep_trooper_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 140
+
+
+class SepElitTrooperCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/sep_elit_trooper_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 215
+
+
+class SepHeroCard(UnitCard):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/unit_menu/sep_hero_card.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = 710
+        self.rect.y = 290

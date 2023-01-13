@@ -2,9 +2,9 @@ import pygame
 
 import variable
 from key_point import KeyPoint
-from ui import CurrentMove, MakeMove, GiveUp, UnitMenu
+from ui import *
 from units import Trooper, ElitTrooper, Hero
-from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED
+from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE
 
 
 class Board:  # Класс игрового поля
@@ -14,7 +14,7 @@ class Board:  # Класс игрового поля
             self.field.append([None] * 10)  # Список содержащий все клетки поля
         self.field[0][1] = Trooper(RES)
         self.field[1][0] = ElitTrooper(RES)
-        self.field[8][8] = Hero(RES)
+        self.field[0][0] = Hero(RES)
 
         self.field[9][8] = ElitTrooper(SEP)
         self.field[8][9] = Trooper(SEP)
@@ -35,14 +35,30 @@ class Board:  # Класс игрового поля
         self.all_key_points = pygame.sprite.Group(KeyPoint())
         self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu())
 
+        self.res_units_cards = pygame.sprite.Group(ResTrooperCard(), ResElitTrooperCard(), ResHeroCard())
+        self.sep_units_cards = pygame.sprite.Group(SepTrooperCard(), SepElitTrooperCard(), SepHeroCard())
+        self.units_cards = self.res_units_cards
+
     def render(self):
         screen.fill(BLACK)
         self.all_key_points.draw(screen)
         self.all_ui.draw(screen)
+        self.units_cards.draw(screen)
+
         for y in range(1, 11):
             for x in range(1, 11):
                 pygame.draw.rect(screen, WHITE, (x * 64 - 32, y * 64 - 32, 64, 64), 1)
         self.all_units.draw(screen)
+
+        for unit in self.all_units.sprites():  # Рисуем полоску хп юнитов
+            x, y = unit.rect.x, unit.rect.y
+            pygame.draw.rect(screen, RED, (x, y, 60 * (unit.hp / 100), 3))
+
+        pygame.draw.rect(screen, (128, 128, 128), (723, 88, 304, 14))
+        pygame.draw.rect(screen, (128, 128, 128), (723, 103, 304, 14))
+
+        pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
+        pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
 
     def change_side(self):
         variable.side = 1 - variable.side
@@ -54,7 +70,15 @@ class Board:  # Класс игрового поля
             i.is_moved = False
             i.is_attacked = False
 
-        if self.field[4][4] is not None:
+        flag = set()
+        for i in [(4, 4), (4, 5), (5, 5), (5, 4)]:
+            x, y = i
+            if self.field[y][x] is not None:
+                flag.add(self.field[y][x].get_side())
+
+        if len(flag) > 1:  # Если в пределах контрольной точки находятся юниты разных сторон
+            self.all_key_points.sprites()[0].change_side()
+        elif self.field[4][4] is not None:
             self.all_key_points.sprites()[0].change_side(self.field[4][4].get_side())
         elif self.field[4][5] is not None:
             self.all_key_points.sprites()[0].change_side(self.field[4][5].get_side())
@@ -64,6 +88,13 @@ class Board:  # Класс игрового поля
             self.all_key_points.sprites()[0].change_side(self.field[5][5].get_side())
         else:
             self.all_key_points.sprites()[0].change_side()
+
+        if variable.side == RES:
+            self.units_cards = self.res_units_cards
+        else:
+            self.units_cards = self.sep_units_cards
+
+        self.render()
 
     def spawn(self, cell, side, unit_class):  # Спавнит нового юнита в конкретной точке
         pass
