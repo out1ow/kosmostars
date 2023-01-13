@@ -4,7 +4,7 @@ import variable
 from key_point import KeyPoint
 from ui import *
 from units import Trooper, ElitTrooper, Hero
-from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE
+from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE, font
 
 
 class Board:  # Класс игрового поля
@@ -33,32 +33,47 @@ class Board:  # Класс игрового поля
                     unit.rect.y = y * 64 - 32
 
         self.all_key_points = pygame.sprite.Group(KeyPoint())
-        self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu())
+        self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu(), ScoreFrame())
 
         self.res_units_cards = pygame.sprite.Group(ResTrooperCard(), ResElitTrooperCard(), ResHeroCard())
         self.sep_units_cards = pygame.sprite.Group(SepTrooperCard(), SepElitTrooperCard(), SepHeroCard())
         self.units_cards = self.res_units_cards
 
+        self.background = pygame.image.load('sources/background/2.png')
+
+        self.text = font.render('0', True, (128, 128, 128))
+
     def render(self):
-        screen.fill(BLACK)
+        screen.blit(self.background, (0, 0))
         self.all_key_points.draw(screen)
         self.all_ui.draw(screen)
         self.units_cards.draw(screen)
 
         for y in range(1, 11):
             for x in range(1, 11):
-                pygame.draw.rect(screen, WHITE, (x * 64 - 32, y * 64 - 32, 64, 64), 1)
+                if x <= 2 and y <= 2:
+                    pygame.draw.rect(screen, BLUE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
+                elif x >= 9 and y >= 9:
+                    pygame.draw.rect(screen, RED, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
+                else:
+                    pygame.draw.rect(screen, WHITE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
         self.all_units.draw(screen)
 
         for unit in self.all_units.sprites():  # Рисуем полоску хп юнитов
             x, y = unit.rect.x, unit.rect.y
-            pygame.draw.rect(screen, RED, (x, y, 60 * (unit.hp / 100), 3))
+            pygame.draw.rect(screen, RED, (x + 7, y + 5, 50 * (unit.hp / 100), 3))
 
         pygame.draw.rect(screen, (128, 128, 128), (723, 88, 304, 14))
         pygame.draw.rect(screen, (128, 128, 128), (723, 103, 304, 14))
 
         pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
         pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
+
+        if variable.side == RES:
+            self.text = font.render(str(variable.res_score), True, (128, 128, 128))
+        else:
+            self.text = font.render(str(variable.sep_score), True, (128, 128, 128))
+        screen.blit(self.text, (930, 143))
 
     def change_side(self):
         variable.side = 1 - variable.side
@@ -91,13 +106,68 @@ class Board:  # Класс игрового поля
 
         if variable.side == RES:
             self.units_cards = self.res_units_cards
+            variable.sep_score += 50
         else:
             self.units_cards = self.sep_units_cards
+            variable.res_score += 50
 
         self.render()
 
-    def spawn(self, cell, side, unit_class):  # Спавнит нового юнита в конкретной точке
-        pass
+    def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
+        if variable.side == RES:
+            if variable.res_score >= unit.cost:
+                if self.field[0][0] is None:
+                    self.field[0][0] = unit
+                    variable.res_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 1 * 64 - 32
+                    unit.rect.y = 1 * 64 - 32
+                elif self.field[1][0] is None:
+                    self.field[1][0] = unit
+                    variable.res_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 1 * 64 - 32
+                    unit.rect.y = 2 * 64 - 32
+                elif self.field[0][1] is None:
+                    self.field[0][1] = unit
+                    variable.res_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 2 * 64 - 32
+                    unit.rect.y = 1 * 64 - 32
+                elif self.field[1][1] is None:
+                    self.field[1][1] = unit
+                    variable.res_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 2 * 64 - 32
+                    unit.rect.y = 2 * 64 - 32
+        else:
+            if variable.sep_score >= unit.cost:
+                if self.field[8][8] is None:
+                    self.field[8][8] = unit
+                    variable.sep_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 9 * 64 - 32
+                    unit.rect.y = 9 * 64 - 32
+                elif self.field[9][8] is None:
+                    self.field[9][8] = unit
+                    variable.sep_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 9 * 64 - 32
+                    unit.rect.y = 10 * 64 - 32
+                elif self.field[8][9] is None:
+                    self.field[8][9] = unit
+                    variable.sep_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 10 * 64 - 32
+                    unit.rect.y = 9 * 64 - 32
+                elif self.field[9][9] is None:
+                    self.field[9][9] = unit
+                    variable.sep_score -= unit.cost
+                    self.all_units.add(unit)
+                    unit.rect.x = 10 * 64 - 32
+                    unit.rect.y = 10 * 64 - 32
+
+        self.render()
 
     def move_unit(self, cell1, cell2):
         x1, y1 = cell1
@@ -169,3 +239,10 @@ class Board:  # Класс игрового поля
                 self.change_side()
             elif 900 <= x <= 1047 and 600 <= y <= 642:
                 pass
+
+            elif 710 <= x <= 857 and 140 <= y <= 200:
+                self.spawn(Trooper(variable.side))
+            elif 710 <= x <= 857 and 215 <= y <= 275:
+                self.spawn(ElitTrooper(variable.side))
+            elif 710 <= x <= 857 and 290 <= y <= 350:
+                self.spawn(Hero(variable.side))
