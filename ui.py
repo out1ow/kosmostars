@@ -24,6 +24,30 @@ class CurrentMove(pygame.sprite.Sprite):
             self.image = self.res_sprite
 
 
+class ChooseLevel(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/choose_level/choose_level.png')
+        self.rect = self.image.get_rect(center=(544, 50))
+
+
+class Win(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.res_sprite = pygame.image.load('sources/sprites/ui/win/res_win.png')
+        self.sep_sprite = pygame.image.load('sources/sprites/ui/win/sep_win.png')
+        self.image = self.res_sprite
+        self.rect = self.image.get_rect(center=(544, 50))
+
+    def change_side(self):
+        if self.image == self.res_sprite:
+            self.image = self.sep_sprite
+        else:
+            self.image = self.res_sprite
+
+
 class Button(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -57,11 +81,76 @@ class GiveUp(Button):
 
         self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/give_up/unselected_give_up.png')
         self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/give_up/selected_give_up.png')
-
         self.image = self.unselected_sprite
         self.rect = self.image.get_rect()
         self.rect.x = 900
         self.rect.y = 600
+
+
+class NewGame(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/new_game/unselected_new_game.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/new_game/selected_new_game.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect(center=(544, 300))
+
+
+class Continue(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/continue/unselected_continue.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/continue/selected_continue.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect(center=(544, 352))
+
+
+class Exit(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/exit/unselected_exit.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/exit/selected_exit.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect(center=(544, 404))
+
+
+class Back(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/back/unselected_back.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/back/selected_back.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect()
+        self.rect.x = 20
+        self.rect.y = 650
+
+
+class Level1(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/level1/unselected_level1.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/level1/selected_level1.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect()
+        self.rect.x = 174
+        self.rect.y = 100
+
+
+class Level2(Button):
+    def __init__(self):
+        super().__init__()
+
+        self.unselected_sprite = pygame.image.load('sources/sprites/ui/buttons/level2/unselected_level2.png')
+        self.selected_sprite = pygame.image.load('sources/sprites/ui/buttons/level2/selected_level2.png')
+        self.image = self.unselected_sprite
+        self.rect = self.image.get_rect()
+        self.rect.x = 544
+        self.rect.y = 100
 
 
 class UnitMenu(pygame.sprite.Sprite):

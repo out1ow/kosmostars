@@ -13,12 +13,12 @@ class Board:  # Класс игрового поля
         for _ in range(10):
             self.field.append([None] * 10)  # Список содержащий все клетки поля
         self.field[0][1] = Trooper(RES)
-        self.field[1][0] = ElitTrooper(RES)
-        self.field[0][0] = Hero(RES)
+        self.field[1][0] = Trooper(RES)
+        self.field[0][0] = Trooper(RES)
 
-        self.field[9][8] = ElitTrooper(SEP)
+        self.field[9][8] = Trooper(SEP)
         self.field[8][9] = Trooper(SEP)
-        self.field[9][9] = Hero(SEP)
+        self.field[9][9] = Trooper(SEP)
 
         self.selected_unit = None
         self.selected_cell = None
@@ -32,53 +32,82 @@ class Board:  # Класс игрового поля
                     unit.rect.x = x * 64 - 32
                     unit.rect.y = y * 64 - 32
 
-        self.all_key_points = pygame.sprite.Group(KeyPoint())
-        self.all_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu(), ScoreFrame())
-
+        self.key_point = pygame.sprite.Group(KeyPoint())
+        self.all_level_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu(), ScoreFrame())
         self.res_units_cards = pygame.sprite.Group(ResTrooperCard(), ResElitTrooperCard(), ResHeroCard())
         self.sep_units_cards = pygame.sprite.Group(SepTrooperCard(), SepElitTrooperCard(), SepHeroCard())
+        self.background_level1 = pygame.image.load('sources/background/level1.png')
+        self.background_level2 = pygame.image.load('sources/background/level2.png')
+        self.background = ''
         self.units_cards = self.res_units_cards
+        self.score = font.render('', True, (128, 128, 128))
 
-        self.background = pygame.image.load('sources/background/2.png')
+        self.background_menu = pygame.image.load('sources/background/menu.png')
+        self.title = font.render('KOSMOSTARS', True, (255, 0, 0))
+        self.all_menu_ui = pygame.sprite.Group(NewGame(), Continue(), Exit())
 
-        self.text = font.render('0', True, (128, 128, 128))
+        self.all_level_menu_ui = pygame.sprite.Group(Back(), ChooseLevel(), Level1(), Level2())
+
+        self.res_win_background = pygame.image.load('sources/background/res_win.png')
+        self.sep_win_background = pygame.image.load('sources/background/sep_win.png')
+        self.win_background = ''
+        self.all_win_ui = pygame.sprite.Group(Back(), Win())
 
     def render(self):
-        screen.blit(self.background, (0, 0))
-        self.all_key_points.draw(screen)
-        self.all_ui.draw(screen)
-        self.units_cards.draw(screen)
+        if variable.game_state == 0:
+            screen.blit(self.background_menu, (0, 0))
+            pygame.draw.rect(screen, BLACK, (420, 170, 242, 80))
+            place = self.title.get_rect(center=(544, 200))
+            screen.blit(self.title, place)
+            self.all_menu_ui.draw(screen)
 
-        for y in range(1, 11):
-            for x in range(1, 11):
-                if x <= 2 and y <= 2:
-                    pygame.draw.rect(screen, BLUE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
-                elif x >= 9 and y >= 9:
-                    pygame.draw.rect(screen, RED, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
-                else:
-                    pygame.draw.rect(screen, WHITE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
-        self.all_units.draw(screen)
+        elif variable.game_state == 1:
+            screen.fill(BLACK)
+            self.all_level_menu_ui.draw(screen)
 
-        for unit in self.all_units.sprites():  # Рисуем полоску хп юнитов
-            x, y = unit.rect.x, unit.rect.y
-            pygame.draw.rect(screen, RED, (x + 7, y + 5, 50 * (unit.hp / 100), 3))
+        elif variable.game_state == 2:
+            screen.blit(self.background, (0, 0))
+            self.key_point.draw(screen)
+            self.all_level_ui.draw(screen)
+            self.units_cards.draw(screen)
 
-        pygame.draw.rect(screen, (128, 128, 128), (723, 88, 304, 14))
-        pygame.draw.rect(screen, (128, 128, 128), (723, 103, 304, 14))
+            for y in range(1, 11):
+                for x in range(1, 11):
+                    if x <= 2 and y <= 2:
+                        pygame.draw.rect(screen, BLUE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
+                    elif x >= 9 and y >= 9:
+                        pygame.draw.rect(screen, RED, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
+                    else:
+                        pygame.draw.rect(screen, WHITE, (x * 64 - 32, y * 64 - 32, 64, 64), 2)
+            self.all_units.draw(screen)
 
-        pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
-        pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
+            for unit in self.all_units.sprites():  # Рисуем полоску хп юнитов
+                x, y = unit.rect.x, unit.rect.y
+                pygame.draw.rect(screen, RED, (x + 7, y + 5, 50 * (unit.hp / 100), 3))
 
-        if variable.side == RES:
-            self.text = font.render(str(variable.res_score), True, (128, 128, 128))
-        else:
-            self.text = font.render(str(variable.sep_score), True, (128, 128, 128))
-        screen.blit(self.text, (930, 143))
+            pygame.draw.rect(screen, (128, 128, 128), (723, 88, 304, 14))
+            pygame.draw.rect(screen, (128, 128, 128), (723, 103, 304, 14))
+
+            pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
+            pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
+
+            if variable.side == RES:
+                self.score = font.render(str(variable.res_score), True, (128, 128, 128))
+            else:
+                self.score = font.render(str(variable.sep_score), True, (128, 128, 128))
+            screen.blit(self.score, (930, 143))
+
+        elif variable.game_state == 3:
+            pass
+
+        elif variable.game_state == 4:
+            screen.blit(self.win_background, (0, 0))
+            self.all_win_ui.draw(screen)
 
     def change_side(self):
         variable.side = 1 - variable.side
 
-        self.all_ui.sprites()[2].change_side()
+        self.all_level_ui.sprites()[2].change_side()
         variable.move_count += 1
 
         for i in self.all_units.sprites():
@@ -92,17 +121,17 @@ class Board:  # Класс игрового поля
                 flag.add(self.field[y][x].get_side())
 
         if len(flag) > 1:  # Если в пределах контрольной точки находятся юниты разных сторон
-            self.all_key_points.sprites()[0].change_side()
+            self.key_point.sprites()[0].change_side()
         elif self.field[4][4] is not None:
-            self.all_key_points.sprites()[0].change_side(self.field[4][4].get_side())
+            self.key_point.sprites()[0].change_side(self.field[4][4].get_side())
         elif self.field[4][5] is not None:
-            self.all_key_points.sprites()[0].change_side(self.field[4][5].get_side())
+            self.key_point.sprites()[0].change_side(self.field[4][5].get_side())
         elif self.field[5][4] is not None:
-            self.all_key_points.sprites()[0].change_side(self.field[5][4].get_side())
+            self.key_point.sprites()[0].change_side(self.field[5][4].get_side())
         elif self.field[5][5] is not None:
-            self.all_key_points.sprites()[0].change_side(self.field[5][5].get_side())
+            self.key_point.sprites()[0].change_side(self.field[5][5].get_side())
         else:
-            self.all_key_points.sprites()[0].change_side()
+            self.key_point.sprites()[0].change_side()
 
         if variable.side == RES:
             self.units_cards = self.res_units_cards
@@ -110,6 +139,14 @@ class Board:  # Класс игрового поля
         else:
             self.units_cards = self.sep_units_cards
             variable.res_score += 50
+
+        if variable.res_count == 10:
+            variable.game_state = 4
+            self.win_background = self.res_win_background
+        elif variable.sep_count == 10:
+            variable.game_state = 4
+            self.win_background = self.sep_win_background
+            self.all_win_ui.sprites()[1].change_side()
 
         self.render()
 
@@ -229,20 +266,50 @@ class Board:  # Класс игрового поля
             self.render()
 
     def get_click(self, mouse_pos):
-        self.render()
-        cell = self.get_cell_cords(mouse_pos)
-        if cell is not None:
-            self.on_click(cell)
-        else:
-            x, y = mouse_pos
-            if 900 <= x <= 1047 and 550 <= y <= 592:
-                self.change_side()
-            elif 900 <= x <= 1047 and 600 <= y <= 642:
+        x, y = mouse_pos
+        if variable.game_state == 0:
+            if 471 <= x <= 618 and 279 <= y <= 321:
+                variable.game_state = 1
+                self.render()
+            elif 471 <= x <= 618 and 331 <= y <= 373:
                 pass
+            elif 471 <= x <= 618 and 381 <= y <= 423:
+                exit()
 
-            elif 710 <= x <= 857 and 140 <= y <= 200:
-                self.spawn(Trooper(variable.side))
-            elif 710 <= x <= 857 and 215 <= y <= 275:
-                self.spawn(ElitTrooper(variable.side))
-            elif 710 <= x <= 857 and 290 <= y <= 350:
-                self.spawn(Hero(variable.side))
+        elif variable.game_state == 1:
+            if 20 <= x <= 167 and 650 <= y <= 692:
+                variable.game_state = 0
+            if 174 <= x <= 542 and 100 <= y <= 500:
+                self.background = self.background_level1
+                variable.game_state = 2
+            if 544 <= x <= 912 and 100 <= y <= 500:
+                self.background = self.background_level2
+                variable.game_state = 2
+            self.render()
+
+        elif variable.game_state == 2:
+            self.render()
+            cell = self.get_cell_cords(mouse_pos)
+            if cell is not None:
+                self.on_click(cell)
+            else:
+                if 900 <= x <= 1047 and 550 <= y <= 592:
+                    self.change_side()
+                elif 900 <= x <= 1047 and 600 <= y <= 642:
+                    variable.game_state = 4
+                    self.win_background = self.sep_win_background
+                    self.all_win_ui.sprites()[1].change_side()
+                    self.render()
+
+                elif 710 <= x <= 857 and 140 <= y <= 200:
+                    self.spawn(Trooper(variable.side))
+                elif 710 <= x <= 857 and 215 <= y <= 275:
+                    self.spawn(ElitTrooper(variable.side))
+                elif 710 <= x <= 857 and 290 <= y <= 350:
+                    self.spawn(Hero(variable.side))
+        elif variable.game_state == 3:
+            pass
+        elif variable.game_state == 4:
+            if 20 <= x <= 167 and 650 <= y <= 692:
+                variable.game_state = 0
+            self.render()
