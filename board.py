@@ -51,7 +51,7 @@ class Board:  # Класс игрового поля
         self.res_win_background = pygame.image.load('sources/background/res_win.png')
         self.sep_win_background = pygame.image.load('sources/background/sep_win.png')
         self.win_background = ''
-        self.all_win_ui = pygame.sprite.Group(Back(), Win())
+        self.all_win_ui = pygame.sprite.Group(Back())
 
     def render(self):
         if variable.game_state == 0:
@@ -143,10 +143,11 @@ class Board:  # Класс игрового поля
         if variable.res_count == 10:
             variable.game_state = 4
             self.win_background = self.res_win_background
+            self.all_win_ui.add(ResWin())
         elif variable.sep_count == 10:
             variable.game_state = 4
             self.win_background = self.sep_win_background
-            self.all_win_ui.sprites()[1].change_side()
+            self.all_win_ui.add(SepWin())
 
         self.render()
 
@@ -298,7 +299,7 @@ class Board:  # Класс игрового поля
                 elif 900 <= x <= 1047 and 600 <= y <= 642:
                     variable.game_state = 4
                     self.win_background = self.sep_win_background
-                    self.all_win_ui.sprites()[1].change_side()
+                    self.all_win_ui.add(SepWin())
                     self.render()
 
                 elif 710 <= x <= 857 and 140 <= y <= 200:
@@ -312,4 +313,5 @@ class Board:  # Класс игрового поля
         elif variable.game_state == 4:
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0
+                self.all_win_ui = pygame.sprite.Group(Back())
             self.render()

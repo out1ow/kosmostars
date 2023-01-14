@@ -32,20 +32,20 @@ class ChooseLevel(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(544, 50))
 
 
-class Win(pygame.sprite.Sprite):
+class ResWin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.res_sprite = pygame.image.load('sources/sprites/ui/win/res_win.png')
-        self.sep_sprite = pygame.image.load('sources/sprites/ui/win/sep_win.png')
-        self.image = self.res_sprite
+        self.image = pygame.image.load('sources/sprites/ui/win/res_win.png')
         self.rect = self.image.get_rect(center=(544, 50))
 
-    def change_side(self):
-        if self.image == self.res_sprite:
-            self.image = self.sep_sprite
-        else:
-            self.image = self.res_sprite
+
+class SepWin(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/win/sep_win.png')
+        self.rect = self.image.get_rect(center=(544, 50))
 
 
 class Button(pygame.sprite.Sprite):
