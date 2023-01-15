@@ -50,8 +50,11 @@ class Board:  # Класс игрового поля
 
         self.res_win_background = pygame.image.load('sources/background/res_win.png')
         self.sep_win_background = pygame.image.load('sources/background/sep_win.png')
-        self.win_background = ''
+        self.background_win = ''
         self.all_win_ui = pygame.sprite.Group(Back())
+
+        self.background_pause = pygame.image.load('sources/background/pause.png')
+        self.all_pause_ui = pygame.sprite.Group(Continue(), Exit())
 
     def render(self):
         if variable.game_state == 0:
@@ -98,10 +101,11 @@ class Board:  # Класс игрового поля
             screen.blit(self.score, (930, 143))
 
         elif variable.game_state == 3:
-            pass
+            screen.blit(self.background_pause, (0, 0))
+            self.all_pause_ui.draw(screen)
 
         elif variable.game_state == 4:
-            screen.blit(self.win_background, (0, 0))
+            screen.blit(self.background_win, (0, 0))
             self.all_win_ui.draw(screen)
 
     def change_side(self):
@@ -142,11 +146,11 @@ class Board:  # Класс игрового поля
 
         if variable.res_count == 10:
             variable.game_state = 4
-            self.win_background = self.res_win_background
+            self.background_win = self.res_win_background
             self.all_win_ui.add(ResWin())
         elif variable.sep_count == 10:
             variable.game_state = 4
-            self.win_background = self.sep_win_background
+            self.background_win = self.sep_win_background
             self.all_win_ui.add(SepWin())
 
         self.render()
@@ -298,7 +302,7 @@ class Board:  # Класс игрового поля
                     self.change_side()
                 elif 900 <= x <= 1047 and 600 <= y <= 642:
                     variable.game_state = 4
-                    self.win_background = self.sep_win_background
+                    self.background_win = self.sep_win_background
                     self.all_win_ui.add(SepWin())
                     self.render()
 
@@ -308,8 +312,15 @@ class Board:  # Класс игрового поля
                     self.spawn(ElitTrooper(variable.side))
                 elif 710 <= x <= 857 and 290 <= y <= 350:
                     self.spawn(Hero(variable.side))
+
         elif variable.game_state == 3:
-            pass
+            if 471 <= x <= 618 and 331 <= y <= 373:
+                variable.game_state = 2
+                self.render()
+            elif 471 <= x <= 618 and 381 <= y <= 423:
+                variable.game_state = 0
+                self.render()
+
         elif variable.game_state == 4:
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0

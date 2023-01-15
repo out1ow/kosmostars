@@ -1,7 +1,9 @@
-# TODO экран паузы
 # TODO сохранения
 # TODO анимации
+# TODO столкновения
+# TODO подсчёт результатов
 # TODO музыка
+
 
 import pygame
 
@@ -66,6 +68,10 @@ def main():
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        variable.game_state = 3
+                        board.render()
                 if event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 900 <= x <= 1047 and 550 <= y <= 592:
@@ -95,7 +101,22 @@ def main():
                     screen.blit(board.score, (930, 143))
 
         elif variable.game_state == 3:  # Экран паузы
-            pass
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    board.get_click(event.pos)
+                if event.type == pygame.MOUSEMOTION:
+                    x, y = event.pos
+                    if 471 <= x <= 618 and 331 <= y <= 373:
+                        board.all_pause_ui.sprites()[0].select()
+                    else:
+                        board.all_pause_ui.sprites()[0].unselect()
+                    if 471 <= x <= 618 and 381 <= y <= 423:
+                        board.all_pause_ui.sprites()[1].select()
+                    else:
+                        board.all_pause_ui.sprites()[1].unselect()
+                    board.all_pause_ui.draw(screen)
         elif variable.game_state == 4:  # Экран победы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
