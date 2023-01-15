@@ -1,5 +1,3 @@
-import pygame
-
 import variable
 from key_point import KeyPoint
 from ui import *
@@ -46,12 +44,13 @@ class Board:  # Класс игрового поля
         self.title = font.render('KOSMOSTARS', True, (255, 0, 0))
         self.all_menu_ui = pygame.sprite.Group(NewGame(), Continue(), Exit())
 
-        self.all_level_menu_ui = pygame.sprite.Group(Back(), ChooseLevel(), Level1(), Level2())
+        self.all_level_menu_ui = pygame.sprite.Group(Back(), ChooseLevel(), Level1(), Level2(), Animation())
 
         self.res_win_background = pygame.image.load('sources/background/res_win.png')
         self.sep_win_background = pygame.image.load('sources/background/sep_win.png')
         self.background_win = ''
-        self.all_win_ui = pygame.sprite.Group(Back())
+        self.all_win_ui = pygame.sprite.Group(Back(), TotalScore())
+        self.total_score = ''
 
         self.background_pause = pygame.image.load('sources/background/pause.png')
         self.all_pause_ui = pygame.sprite.Group(Continue(), Exit())
@@ -66,6 +65,7 @@ class Board:  # Класс игрового поля
 
         elif variable.game_state == 1:
             screen.fill(BLACK)
+            self.all_level_menu_ui.update()
             self.all_level_menu_ui.draw(screen)
 
         elif variable.game_state == 2:
@@ -98,15 +98,16 @@ class Board:  # Класс игрового поля
                 self.score = font.render(str(variable.res_score), True, (128, 128, 128))
             else:
                 self.score = font.render(str(variable.sep_score), True, (128, 128, 128))
-            screen.blit(self.score, (930, 143))
+            screen.blit(self.score, (930, 145))
 
         elif variable.game_state == 3:
-            screen.blit(self.background_pause, (0, 0))
             self.all_pause_ui.draw(screen)
 
         elif variable.game_state == 4:
             screen.blit(self.background_win, (0, 0))
             self.all_win_ui.draw(screen)
+            self.total_score = font.render(str(variable.total_score), True, (128, 128, 128))
+            screen.blit(self.total_score, (600, 70))
 
     def change_side(self):
         variable.side = 1 - variable.side
@@ -143,6 +144,7 @@ class Board:  # Класс игрового поля
         else:
             self.units_cards = self.sep_units_cards
             variable.res_score += 50
+            variable.total_score += 50
 
         if variable.res_count == 10:
             variable.game_state = 4
@@ -152,8 +154,6 @@ class Board:  # Класс игрового поля
             variable.game_state = 4
             self.background_win = self.sep_win_background
             self.all_win_ui.add(SepWin())
-
-        self.render()
 
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
         if variable.side == RES:
@@ -209,8 +209,6 @@ class Board:  # Класс игрового поля
                     unit.rect.x = 10 * 64 - 32
                     unit.rect.y = 10 * 64 - 32
 
-        self.render()
-
     def move_unit(self, cell1, cell2):
         x1, y1 = cell1
         x2, y2 = cell2
@@ -227,6 +225,12 @@ class Board:  # Класс игрового поля
         self.field[y1][x1].is_attacked = True
         self.field[y2][x2].hp -= self.field[y1][x1].damage
 
+        if variable.side == RES:
+            variable.res_score += 10
+            variable.total_score += 10
+        else:
+            variable.sep_score += 10
+
         if self.field[y2][x2].is_dead():
             self.kill_unit(target_cell)
 
@@ -234,6 +238,12 @@ class Board:  # Класс игрового поля
         x, y = cell
         self.field[y][x].kill()
         self.field[y][x] = None
+
+        if variable.side == RES:
+            variable.res_score += 20
+            variable.total_score += 20
+        else:
+            variable.sep_score += 20
 
     def get_cell_cords(self, mouse_pos):
         x, y = mouse_pos
@@ -268,14 +278,12 @@ class Board:  # Класс игрового поля
                     self.attack_unit(self.selected_unit, self.selected_cell)
             self.selected_cell = None
             self.selected_unit = None
-            self.render()
 
     def get_click(self, mouse_pos):
         x, y = mouse_pos
         if variable.game_state == 0:
             if 471 <= x <= 618 and 279 <= y <= 321:
                 variable.game_state = 1
-                self.render()
             elif 471 <= x <= 618 and 331 <= y <= 373:
                 pass
             elif 471 <= x <= 618 and 381 <= y <= 423:
@@ -290,10 +298,8 @@ class Board:  # Класс игрового поля
             if 544 <= x <= 912 and 100 <= y <= 500:
                 self.background = self.background_level2
                 variable.game_state = 2
-            self.render()
 
         elif variable.game_state == 2:
-            self.render()
             cell = self.get_cell_cords(mouse_pos)
             if cell is not None:
                 self.on_click(cell)
@@ -304,7 +310,6 @@ class Board:  # Класс игрового поля
                     variable.game_state = 4
                     self.background_win = self.sep_win_background
                     self.all_win_ui.add(SepWin())
-                    self.render()
 
                 elif 710 <= x <= 857 and 140 <= y <= 200:
                     self.spawn(Trooper(variable.side))
@@ -316,13 +321,9 @@ class Board:  # Класс игрового поля
         elif variable.game_state == 3:
             if 471 <= x <= 618 and 331 <= y <= 373:
                 variable.game_state = 2
-                self.render()
             elif 471 <= x <= 618 and 381 <= y <= 423:
                 variable.game_state = 0
-                self.render()
-
         elif variable.game_state == 4:
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0
-                self.all_win_ui = pygame.sprite.Group(Back())
-            self.render()
+                self.all_win_ui = pygame.sprite.Group(Back(), TotalScore())

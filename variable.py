@@ -1,6 +1,6 @@
 import pygame
 
-FPS = 10
+FPS = 30
 WIDTH = 1088
 HEIGHT = 704
 BLACK = (0, 0, 0)
@@ -19,6 +19,7 @@ sep_count = 0
 
 res_score = 0  # Количество очков, заработанных за игру
 sep_score = 0
+total_score = 0
 
 side = RES  # Чей ход
 
@@ -37,3 +38,7 @@ pygame.display.set_caption('KOSMOSTARS')
 pygame.display.set_icon(pygame.image.load('sources/icon/icon.png'))
 
 font = pygame.font.Font('sources/font/m5x7.ttf', 60)
+
+pygame.mixer.music.load('sources/music/main_theme.mp3')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.4)

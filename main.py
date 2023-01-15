@@ -1,15 +1,12 @@
 # TODO сохранения
-# TODO анимации
 # TODO столкновения
-# TODO подсчёт результатов
-# TODO музыка
 
 
 import pygame
 
 import variable
 from board import Board
-from variable import screen, FPS
+from variable import FPS, screen
 
 
 def main():
@@ -22,9 +19,9 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
-                if event.type == pygame.MOUSEMOTION:
+                elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 471 <= x <= 618 and 279 <= y <= 321:
                         board.all_menu_ui.sprites()[0].select()
@@ -38,15 +35,14 @@ def main():
                         board.all_menu_ui.sprites()[2].select()
                     else:
                         board.all_menu_ui.sprites()[2].unselect()
-                    board.all_menu_ui.draw(screen)
 
         elif variable.game_state == 1:  # Экран выбора уровня
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
-                if event.type == pygame.MOUSEMOTION:
+                elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 20 <= x <= 167 and 650 <= y <= 692:
                         board.all_level_menu_ui.sprites()[0].select()
@@ -60,19 +56,18 @@ def main():
                         board.all_level_menu_ui.sprites()[3].select()
                     else:
                         board.all_level_menu_ui.sprites()[3].unselect()
-                    board.all_level_menu_ui.draw(screen)
 
         elif variable.game_state == 2:  # Основной игровой процес
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
-                if event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         variable.game_state = 3
-                        board.render()
-                if event.type == pygame.MOUSEMOTION:
+                        screen.blit(board.background_pause, (0, 0))
+                elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 900 <= x <= 1047 and 550 <= y <= 592:
                         board.all_level_ui.sprites()[0].select()
@@ -96,17 +91,13 @@ def main():
                     else:
                         board.units_cards.sprites()[2].unselect()
 
-                    board.all_level_ui.draw(screen)
-                    board.units_cards.draw(screen)
-                    screen.blit(board.score, (930, 143))
-
         elif variable.game_state == 3:  # Экран паузы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
-                if event.type == pygame.MOUSEMOTION:
+                elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 471 <= x <= 618 and 331 <= y <= 373:
                         board.all_pause_ui.sprites()[0].select()
@@ -116,21 +107,20 @@ def main():
                         board.all_pause_ui.sprites()[1].select()
                     else:
                         board.all_pause_ui.sprites()[1].unselect()
-                    board.all_pause_ui.draw(screen)
         elif variable.game_state == 4:  # Экран победы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
-                if event.type == pygame.MOUSEMOTION:
+                elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 20 <= x <= 167 and 650 <= y <= 692:
                         board.all_win_ui.sprites()[0].select()
                     else:
                         board.all_win_ui.sprites()[0].unselect()
-                    board.all_win_ui.draw(screen)
 
+        board.render()
         pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()

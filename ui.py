@@ -48,6 +48,14 @@ class SepWin(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(544, 50))
 
 
+class TotalScore(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/ui/win/total_win.png')
+        self.rect = self.image.get_rect(center=(544, 100))
+
+
 class Button(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -257,3 +265,31 @@ class ScoreFrame(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 900
         self.rect.y = 140
+
+
+class Animation(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.images = [pygame.image.load('sources/sprites/ui/loading/1.png'),
+                       pygame.image.load('sources/sprites/ui/loading/2.png'),
+                       pygame.image.load('sources/sprites/ui/loading/3.png'),
+                       pygame.image.load('sources/sprites/ui/loading/4.png'),
+                       pygame.image.load('sources/sprites/ui/loading/5.png'),
+                       pygame.image.load('sources/sprites/ui/loading/6.png'),
+                       pygame.image.load('sources/sprites/ui/loading/7.png'),
+                       pygame.image.load('sources/sprites/ui/loading/8.png'),
+                       pygame.image.load('sources/sprites/ui/loading/9.png'),
+                       pygame.image.load('sources/sprites/ui/loading/10.png'),
+                       ]
+        self.rect = self.images[0].get_rect()
+        self.rect.x = 900
+        self.rect.y = 550
+
+        self.index = 0
+        self.image = self.images[self.index]
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+        self.image = self.images[self.index]
