@@ -108,6 +108,9 @@ class Board:  # Класс игрового поля
                 self.score = font.render(str(variable.sep_score), True, (128, 128, 128))
             screen.blit(self.score, (930, 145))
 
+            if self.selected_unit is not None:
+                self.on_click(self.selected_unit)
+
         elif variable.game_state == 3:
             if variable.is_konami:
                 self.physics.update()
@@ -267,21 +270,19 @@ class Board:  # Класс игрового поля
         return (x - 32) // 64, (y - 32) // 64
 
     def on_click(self, cell):
-        if self.selected_unit is None and self.selected_cell is None:
-            x1, y1 = cell
-            if self.field[y1][x1] is not None:
-                if self.field[y1][x1].get_side() == variable.side:
-                    self.selected_unit = cell
-                    unit = self.field[y1][x1]
-                    for x2 in range(10):
-                        for y2 in range(10):
-                            if not unit.is_moved:  # двигаем
-                                if unit.can_move(self, cell, (x2, y2)):
-                                    pygame.draw.circle(screen, GREEN, ((x2 + 1) * 64, (y2 + 1) * 64), 32, 3)
-                            elif unit.is_moved and not unit.is_attacked:  # Атакуем
-                                if unit.can_attack(self, cell, (x2, y2)):
-                                    pygame.draw.circle(screen, RED, ((x2 + 1) * 64, (y2 + 1) * 64), 32, 3)
-        elif self.selected_unit is not None and self.selected_cell is None:
+        x1, y1 = cell
+        if self.field[y1][x1] is not None and self.field[y1][x1].get_side() == variable.side:
+            self.selected_unit = cell
+            unit = self.field[y1][x1]
+            for x2 in range(10):
+                for y2 in range(10):
+                    if not unit.is_moved:  # двигаем
+                        if unit.can_move(self, cell, (x2, y2)):
+                            pygame.draw.circle(screen, GREEN, ((x2 + 1) * 64, (y2 + 1) * 64), 32, 3)
+                    elif unit.is_moved and not unit.is_attacked:  # Атакуем
+                        if unit.can_attack(self, cell, (x2, y2)):
+                            pygame.draw.circle(screen, RED, ((x2 + 1) * 64, (y2 + 1) * 64), 32, 3)
+        elif self.selected_unit is not None:
             self.selected_cell = cell
             x, y = self.selected_unit
             unit = self.field[y][x]
