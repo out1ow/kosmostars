@@ -1,12 +1,11 @@
 # TODO сохранения
-# TODO столкновения
 
 
 import pygame
 
 import variable
 from board import Board
-from variable import FPS, screen
+from variable import FPS, KONAMI
 
 
 def main():
@@ -14,6 +13,8 @@ def main():
     clock = pygame.time.Clock()
     running = True
     board.render()
+    code = []
+    index = 0
     while running:
         if variable.game_state == 0:  # Стартовое меню
             for event in pygame.event.get():
@@ -66,7 +67,6 @@ def main():
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         variable.game_state = 3
-                        screen.blit(board.background_pause, (0, 0))
                 elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 900 <= x <= 1047 and 550 <= y <= 592:
@@ -92,6 +92,7 @@ def main():
                         board.units_cards.sprites()[2].unselect()
 
         elif variable.game_state == 3:  # Экран паузы
+            key = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -107,6 +108,17 @@ def main():
                         board.all_pause_ui.sprites()[1].select()
                     else:
                         board.all_pause_ui.sprites()[1].unselect()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == KONAMI[index]:
+                        code.append(event.key)
+                        index += 1
+                        if code == KONAMI:
+                            index = 0
+                            variable.is_konami = True
+                    else:
+                        code = []
+                        index = 0
+
         elif variable.game_state == 4:  # Экран победы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

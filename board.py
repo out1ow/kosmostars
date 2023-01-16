@@ -2,7 +2,7 @@ import variable
 from key_point import KeyPoint
 from ui import *
 from units import Trooper, ElitTrooper, Hero
-from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE, font
+from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE, font, WIDTH, HEIGHT
 
 
 class Board:  # Класс игрового поля
@@ -52,8 +52,16 @@ class Board:  # Класс игрового поля
         self.all_win_ui = pygame.sprite.Group(Back(), TotalScore())
         self.total_score = ''
 
-        self.background_pause = pygame.image.load('sources/background/pause.png')
         self.all_pause_ui = pygame.sprite.Group(Continue(), Exit())
+        self.vertical_borders = pygame.sprite.Group()
+        self.horizontal_borders = pygame.sprite.Group()
+        self.physics = pygame.sprite.Group(Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders))
+        Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
+        Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
+        Border(self.physics, 5, 5, 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
+        Border(self.physics, WIDTH - 5, 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders)
 
     def render(self):
         if variable.game_state == 0:
@@ -101,7 +109,14 @@ class Board:  # Класс игрового поля
             screen.blit(self.score, (930, 145))
 
         elif variable.game_state == 3:
-            self.all_pause_ui.draw(screen)
+            if variable.is_konami:
+                self.physics.update()
+                screen.fill(BLACK)
+                self.physics.draw(screen)
+                self.all_pause_ui.draw(screen)
+            else:
+                screen.fill(BLACK)
+                self.all_pause_ui.draw(screen)
 
         elif variable.game_state == 4:
             screen.blit(self.background_win, (0, 0))
@@ -321,8 +336,10 @@ class Board:  # Класс игрового поля
         elif variable.game_state == 3:
             if 471 <= x <= 618 and 331 <= y <= 373:
                 variable.game_state = 2
+                variable.is_konami = False
             elif 471 <= x <= 618 and 381 <= y <= 423:
                 variable.game_state = 0
+                variable.is_konami = False
         elif variable.game_state == 4:
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0

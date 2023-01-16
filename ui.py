@@ -1,6 +1,9 @@
+import random
+
 import pygame
 
-from variable import RES, side
+import board
+from variable import RES, side, RED
 
 
 class CurrentMove(pygame.sprite.Sprite):
@@ -279,7 +282,7 @@ class Animation(pygame.sprite.Sprite):
                        pygame.image.load('sources/sprites/ui/loading/7.png'),
                        pygame.image.load('sources/sprites/ui/loading/8.png'),
                        pygame.image.load('sources/sprites/ui/loading/9.png'),
-                       pygame.image.load('sources/sprites/ui/loading/10.png'),
+                       pygame.image.load('sources/sprites/ui/loading/10.png')
                        ]
         self.rect = self.images[0].get_rect()
         self.rect.x = 900
@@ -293,3 +296,36 @@ class Animation(pygame.sprite.Sprite):
         if self.index >= len(self.images):
             self.index = 0
         self.image = self.images[self.index]
+
+
+class Ball(pygame.sprite.Sprite):
+    def __init__(self, horizontal_borders, vertical_borders):
+        super().__init__()
+        self.image = pygame.Surface((40, 40), 32)
+        pygame.draw.rect(self.image, RED, (0, 0, 40, 40), 20)
+        self.rect = pygame.Rect(random.randint(100, 900), random.randint(100, 600), 40, 40)
+        self.vx = random.randint(-10, 10)
+        self.vy = random.randrange(-10, 10)
+        self.borders = [horizontal_borders, vertical_borders]
+
+    def update(self):
+        self.rect = self.rect.move(self.vx, self.vy)
+        self.rect = self.rect.move(self.vx, self.vy)
+        if pygame.sprite.spritecollideany(self, self.borders[0]):
+            self.vy = -self.vy
+        if pygame.sprite.spritecollideany(self, self.borders[1]):
+            self.vx = -self.vx
+
+
+class Border(pygame.sprite.Sprite):
+    # строго вертикальный или строго горизонтальный отрезок
+    def __init__(self, group, x1, y1, x2, y2, horizontal_borders, vertical_borders):
+        super().__init__(group)
+        if x1 == x2:  # вертикальная стенка
+            self.add(vertical_borders)
+            self.image = pygame.Surface([1, y2 - y1])
+            self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
+        else:  # горизонтальная стенка
+            self.add(horizontal_borders)
+            self.image = pygame.Surface([x2 - x1, 1])
+            self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
