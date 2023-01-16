@@ -22,8 +22,6 @@ class Unit(pygame.sprite.Sprite):
     def can_move(self, board, cell1, cell2):  # Проверяет может ли юнит походить в выбранную клетку
         x1, y1 = cell1
         x2, y2 = cell2
-        if board.field[y2][x2] == board.field[y1][x1]:  # Юнит может остаться на месте
-            return True
         if board.field[y2][x2] is not None:  # Если целевая клетка занята
             return False
         if abs(x2 - x1) <= self.move_distance and y2 == y1:  # Если растояние больше чем move_distance
