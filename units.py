@@ -1,6 +1,4 @@
-import pygame
-
-from variable import RES
+from variable import RES, pygame
 
 
 class Unit(pygame.sprite.Sprite):
@@ -24,6 +22,14 @@ class Unit(pygame.sprite.Sprite):
         x2, y2 = cell2
         if board.field[y2][x2] is not None:  # Если целевая клетка занята
             return False
+        step = 1 if (y2 >= y1) else -1
+        for y in range(y1 + step, y2, step):
+            if board.field[y][x2] is not None:
+                return False
+        step = 1 if (x2 >= x1) else -1
+        for x in range(x1 + step, x2, step):
+            if board.field[y2][x] is not None:
+                return False
         if abs(x2 - x1) <= self.move_distance and y2 == y1:  # Если растояние больше чем move_distance
             return True
         elif x1 == x2 and abs(y2 - y1) <= self.move_distance:
@@ -33,10 +39,20 @@ class Unit(pygame.sprite.Sprite):
     def can_attack(self, board, cell1, cell2):  # Проверяет может ли юнит атаковать выбранную клетку
         x1, y1 = cell1
         x2, y2 = cell2
+        if type(board.field[y2][x2]) == Box:
+            return False
         if board.field[y2][x2] is None:  # Если целевая клетка пуста
             return False
         if board.field[y2][x2].get_side() == self.get_side():  # Если целевая клетк занята вражеским юнитом
             return False
+        step = 1 if (y2 >= y1) else -1
+        for y in range(y1 + step, y2, step):
+            if board.field[y][x2] is not None:
+                return False
+        step = 1 if (x2 >= x1) else -1
+        for x in range(x1 + step, x2, step):
+            if board.field[y2][x] is not None:
+                return False
         if abs(x2 - x1) <= self.attack_distance and y2 == y1:  # Если расстояние соответствует attack_distance
             return True
         elif x1 == x2 and abs(y2 - y1) <= self.attack_distance:
@@ -97,3 +113,14 @@ class Hero(Unit):  # Класс героя
         else:
             self.image = pygame.image.load('sources/sprites/sep_hero/idle.png')
         self.rect = self.image.get_rect()
+
+
+class Box(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.image.load('sources/sprites/box/box.png')
+        self.rect = self.image.get_rect()
+
+    def get_side(self):
+        return None

@@ -1,42 +1,28 @@
 import variable
-from key_point import KeyPoint
+from save import Saves
+from variable import *
+from key_points import *
 from ui import *
-from units import Trooper, ElitTrooper, Hero
-from variable import RES, SEP, BLACK, screen, WHITE, GREEN, RED, BLUE, font, WIDTH, HEIGHT
+from units import *
 
 
 class Board:  # Класс игрового поля
     def __init__(self):
-        self.field = []
-        for _ in range(10):
-            self.field.append([None] * 10)  # Список содержащий все клетки поля
-        self.field[0][1] = Trooper(RES)
-        self.field[1][0] = Trooper(RES)
-        self.field[0][0] = Trooper(RES)
 
-        self.field[9][8] = Trooper(SEP)
-        self.field[8][9] = Trooper(SEP)
-        self.field[9][9] = Trooper(SEP)
+        self.field = []
+
+        self.save = Saves()
 
         self.selected_unit = None
         self.selected_cell = None
 
         self.all_units = pygame.sprite.Group()
-        for y in range(1, 11):
-            for x in range(1, 11):
-                if self.field[y - 1][x - 1] is not None:
-                    unit = self.field[y - 1][x - 1]
-                    self.all_units.add(unit)
-                    unit.rect.x = x * 64 - 32
-                    unit.rect.y = y * 64 - 32
 
         self.key_point = pygame.sprite.Group(KeyPoint())
         self.all_level_ui = pygame.sprite.Group(MakeMove(), GiveUp(), CurrentMove(), UnitMenu(), ScoreFrame())
         self.res_units_cards = pygame.sprite.Group(ResTrooperCard(), ResElitTrooperCard(), ResHeroCard())
         self.sep_units_cards = pygame.sprite.Group(SepTrooperCard(), SepElitTrooperCard(), SepHeroCard())
-        self.background_level1 = pygame.image.load('sources/background/level1.png')
-        self.background_level2 = pygame.image.load('sources/background/level2.png')
-        self.background = ''
+        self.background = pygame.image.load('sources/background/level.png')
         self.units_cards = self.res_units_cards
         self.score = font.render('', True, (128, 128, 128))
 
@@ -56,6 +42,12 @@ class Board:  # Класс игрового поля
         self.vertical_borders = pygame.sprite.Group()
         self.horizontal_borders = pygame.sprite.Group()
         self.physics = pygame.sprite.Group(Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.horizontal_borders, self.vertical_borders),
                                            Ball(self.horizontal_borders, self.vertical_borders),
                                            Ball(self.horizontal_borders, self.vertical_borders))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
@@ -93,8 +85,9 @@ class Board:  # Класс игрового поля
             self.all_units.draw(screen)
 
             for unit in self.all_units.sprites():  # Рисуем полоску хп юнитов
-                x, y = unit.rect.x, unit.rect.y
-                pygame.draw.rect(screen, RED, (x + 7, y + 5, 50 * (unit.hp / 100), 3))
+                if type(unit) != Box:
+                    x, y = unit.rect.x, unit.rect.y
+                    pygame.draw.rect(screen, RED, (x + 7, y + 5, 50 * (unit.hp / 100), 3))
 
             pygame.draw.rect(screen, (128, 128, 128), (723, 88, 304, 14))
             pygame.draw.rect(screen, (128, 128, 128), (723, 103, 304, 14))
@@ -102,7 +95,7 @@ class Board:  # Класс игрового поля
             pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
             pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
 
-            if variable.side == RES:
+            if side == RES:
                 self.score = font.render(str(variable.res_score), True, (128, 128, 128))
             else:
                 self.score = font.render(str(variable.sep_score), True, (128, 128, 128))
@@ -131,7 +124,6 @@ class Board:  # Класс игрового поля
         variable.side = 1 - variable.side
 
         self.all_level_ui.sprites()[2].change_side()
-        variable.move_count += 1
 
         for i in self.all_units.sprites():
             i.is_moved = False
@@ -243,7 +235,7 @@ class Board:  # Класс игрового поля
         self.field[y1][x1].is_attacked = True
         self.field[y2][x2].hp -= self.field[y1][x1].damage
 
-        if variable.side == RES:
+        if side == RES:
             variable.res_score += 10
             variable.total_score += 10
         else:
@@ -257,7 +249,7 @@ class Board:  # Класс игрового поля
         self.field[y][x].kill()
         self.field[y][x] = None
 
-        if variable.side == RES:
+        if side == RES:
             variable.res_score += 20
             variable.total_score += 20
         else:
@@ -301,7 +293,22 @@ class Board:  # Класс игрового поля
             if 471 <= x <= 618 and 279 <= y <= 321:
                 variable.game_state = 1
             elif 471 <= x <= 618 and 331 <= y <= 373:
-                pass
+                variable.game_state = 2
+
+                self.field.clear()
+                self.all_units.empty()
+                for _ in range(10):
+                    self.field.append([None] * 10)
+
+                self.save.load(self)
+
+                for y in range(1, 11):
+                    for x in range(1, 11):
+                        if self.field[y - 1][x - 1] is not None:
+                            unit = self.field[y - 1][x - 1]
+                            self.all_units.add(unit)
+                            unit.rect.x = x * 64 - 32
+                            unit.rect.y = y * 64 - 32
             elif 471 <= x <= 618 and 381 <= y <= 423:
                 exit()
 
@@ -309,11 +316,63 @@ class Board:  # Класс игрового поля
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0
             if 174 <= x <= 542 and 100 <= y <= 500:
-                self.background = self.background_level1
                 variable.game_state = 2
+
+                self.field.clear()
+                self.all_units.empty()
+                for _ in range(10):
+                    self.field.append([None] * 10)
+                self.field[0][1] = Trooper(RES)
+                self.field[1][0] = Trooper(RES)
+                self.field[0][0] = Trooper(RES)
+
+                self.field[9][8] = Trooper(SEP)
+                self.field[8][9] = Trooper(SEP)
+                self.field[9][9] = Trooper(SEP)
+
+                self.field[7][1] = Box()
+                self.field[7][2] = Box()
+                self.field[8][2] = Box()
+                self.field[1][7] = Box()
+                self.field[2][7] = Box()
+                self.field[2][8] = Box()
+
+                for y in range(1, 11):
+                    for x in range(1, 11):
+                        if self.field[y - 1][x - 1] is not None:
+                            unit = self.field[y - 1][x - 1]
+                            self.all_units.add(unit)
+                            unit.rect.x = x * 64 - 32
+                            unit.rect.y = y * 64 - 32
             if 544 <= x <= 912 and 100 <= y <= 500:
-                self.background = self.background_level2
                 variable.game_state = 2
+
+                self.field.clear()
+                self.all_units.empty()
+                for _ in range(10):
+                    self.field.append([None] * 10)
+                self.field[0][1] = Trooper(RES)
+                self.field[1][0] = Trooper(RES)
+                self.field[0][0] = Trooper(RES)
+
+                self.field[9][8] = Trooper(SEP)
+                self.field[8][9] = Trooper(SEP)
+                self.field[9][9] = Trooper(SEP)
+
+                self.field[4][2] = Box()
+                self.field[5][2] = Box()
+                self.field[6][2] = Box()
+                self.field[3][7] = Box()
+                self.field[4][7] = Box()
+                self.field[5][7] = Box()
+
+                for y in range(1, 11):
+                    for x in range(1, 11):
+                        if self.field[y - 1][x - 1] is not None:
+                            unit = self.field[y - 1][x - 1]
+                            self.all_units.add(unit)
+                            unit.rect.x = x * 64 - 32
+                            unit.rect.y = y * 64 - 32
 
         elif variable.game_state == 2:
             cell = self.get_cell_cords(mouse_pos)
@@ -341,6 +400,8 @@ class Board:  # Класс игрового поля
             elif 471 <= x <= 618 and 381 <= y <= 423:
                 variable.game_state = 0
                 variable.is_konami = False
+
+                self.save.saving(self)
         elif variable.game_state == 4:
             if 20 <= x <= 167 and 650 <= y <= 692:
                 variable.game_state = 0

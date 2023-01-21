@@ -1,18 +1,12 @@
-# TODO сохранения
-
-
-import pygame
-
 import variable
-from board import Board
-from variable import FPS, KONAMI
+from field import Board
+from variable import FPS, KONAMI, pygame
 
 
 def main():
     board = Board()
     clock = pygame.time.Clock()
     running = True
-    board.render()
     code = []
     index = 0
     while running:
@@ -92,7 +86,6 @@ def main():
                         board.units_cards.sprites()[2].unselect()
 
         elif variable.game_state == 3:  # Экран паузы
-            key = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False

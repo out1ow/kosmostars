@@ -1,7 +1,7 @@
 import pygame
 
 import variable
-from variable import RES, SEP
+from variable import RES, SEP, pygame
 
 
 class KeyPoint(pygame.sprite.Sprite):

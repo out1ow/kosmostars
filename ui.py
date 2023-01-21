@@ -1,9 +1,6 @@
 import random
 
-import pygame
-
-import board
-from variable import RES, side, RED
+from variable import RES, side, RED, pygame
 
 
 class CurrentMove(pygame.sprite.Sprite):
@@ -302,7 +299,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, horizontal_borders, vertical_borders):
         super().__init__()
         self.image = pygame.Surface((40, 40), 32)
-        pygame.draw.rect(self.image, RED, (0, 0, 40, 40), 20)
+        pygame.draw.circle(self.image, RED, (20, 20), 20)
         self.rect = pygame.Rect(random.randint(100, 900), random.randint(100, 600), 40, 40)
         self.vx = random.randint(-10, 10)
         self.vy = random.randrange(-10, 10)

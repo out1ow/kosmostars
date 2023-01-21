@@ -15,8 +15,6 @@ KONAMI = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN, pygame.K_LEFT,
           pygame.K_RIGHT, pygame.K_b, pygame.K_a]
 is_konami = False
 
-move_count = 0  # Подсчёт количества ходов(для статистики)
-
 res_count = 0  # Подсчёт количества ходов в течении которых контрольная точка захвачена
 sep_count = 0
 
