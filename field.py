@@ -1,3 +1,5 @@
+import pygame
+
 import variable
 from save import Saves
 from variable import *
@@ -310,7 +312,7 @@ class Board:  # Класс игрового поля
                             unit.rect.x = x * 64 - 32
                             unit.rect.y = y * 64 - 32
             elif 471 <= x <= 618 and 381 <= y <= 423:
-                exit()
+                variable.running = False
 
         elif variable.game_state == 1:
             if 20 <= x <= 167 and 650 <= y <= 692:

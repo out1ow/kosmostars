@@ -11,6 +11,9 @@ GRAY = (128, 128, 128)
 WHITE = (255, 255, 255)
 RES = 0  # RES - республика
 SEP = 1  # SEP - сепаратисты
+
+running = True
+
 KONAMI = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_LEFT,
           pygame.K_RIGHT, pygame.K_b, pygame.K_a]
 is_konami = False

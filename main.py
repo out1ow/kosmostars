@@ -6,14 +6,13 @@ from variable import FPS, KONAMI, pygame
 def main():
     board = Board()
     clock = pygame.time.Clock()
-    running = True
     code = []
     index = 0
-    while running:
+    while variable.running:
         if variable.game_state == 0:  # Стартовое меню
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    variable.running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
                 elif event.type == pygame.MOUSEMOTION:
@@ -34,7 +33,7 @@ def main():
         elif variable.game_state == 1:  # Экран выбора уровня
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    variable.running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
                 elif event.type == pygame.MOUSEMOTION:
@@ -55,7 +54,7 @@ def main():
         elif variable.game_state == 2:  # Основной игровой процес
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    variable.running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
                 elif event.type == pygame.KEYDOWN:
@@ -88,7 +87,7 @@ def main():
         elif variable.game_state == 3:  # Экран паузы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    variable.running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
                 elif event.type == pygame.MOUSEMOTION:
@@ -115,7 +114,7 @@ def main():
         elif variable.game_state == 4:  # Экран победы
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    variable.running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     board.get_click(event.pos)
                 elif event.type == pygame.MOUSEMOTION:
