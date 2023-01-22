@@ -22,10 +22,13 @@ class KeyPoint(pygame.sprite.Sprite):
         if side == RES:
             self.image = self.res_sprite
             variable.res_count += 1
+            variable.res_score += 30
+            variable.total_score += 30
             self.side = RES
         elif side == SEP:
             self.image = self.sep_sprite
             variable.sep_count += 1
+            variable.sep_score += 30
             self.side = SEP
         else:
             self.image = self.free_sprite
