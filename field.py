@@ -29,7 +29,7 @@ class Board:  # Класс игрового поля
         self.score = font.render('', True, (128, 128, 128))
 
         self.background_menu = pygame.image.load('sources/background/menu.png')
-        self.title = font.render('KOSMOSTARS', True, (255, 0, 0))
+        self.title = font.render('KOSMOSTARS', True, (128, 128, 128))
         self.all_menu_ui = pygame.sprite.Group(NewGame(), Continue(), Exit())
 
         self.all_level_menu_ui = pygame.sprite.Group(Back(), ChooseLevel(), Level1(), Level2(), Animation())
