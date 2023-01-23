@@ -152,22 +152,37 @@ class Board:  # Класс игрового поля
 
         if variable.side == RES:
             self.units_cards = self.res_units_cards
-            variable.sep_score += 50
+            variable.res_score += 50
         else:
             self.units_cards = self.sep_units_cards
-            variable.res_score += 50
+            variable.sep_score += 50
             variable.total_score += 50
 
         if variable.res_count == 10:
             variable.game_state = 4
             self.background_win = self.res_win_background
             self.all_win_ui.add(ResWin())
+
+            variable.res_score = 0
+            variable.sep_score = 0
+            variable.res_count = 0
+            variable.sep_count = 0
+            variable.total_score = 0
         elif variable.sep_count == 10:
             variable.game_state = 4
             self.background_win = self.sep_win_background
             self.all_win_ui.add(SepWin())
 
+            variable.res_score = 0
+            variable.sep_score = 0
+            variable.res_count = 0
+            variable.sep_count = 0
+            variable.total_score = 0
+
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
+        for i in self.field:
+            if type(i) == Hero and i.get_side() == variable.side:
+                return None
         if variable.side == RES:
             if variable.res_score >= unit.cost:
                 if self.field[0][0] is None:
