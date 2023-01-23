@@ -57,8 +57,6 @@ class Unit(pygame.sprite.Sprite):
             return True
         elif x1 == x2 and abs(y2 - y1) <= self.attack_distance:
             return True
-        elif abs(x2 - x1) <= self.attack_distance and abs(y2 - y1) <= self.attack_distance:
-            return True
         return False
 
     def is_dead(self):

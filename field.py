@@ -162,27 +162,17 @@ class Board:  # Класс игрового поля
             variable.game_state = 4
             self.background_win = self.res_win_background
             self.all_win_ui.add(ResWin())
-
-            variable.res_score = 0
-            variable.sep_score = 0
-            variable.res_count = 0
-            variable.sep_count = 0
-            variable.total_score = 0
         elif variable.sep_count == 10:
             variable.game_state = 4
             self.background_win = self.sep_win_background
             self.all_win_ui.add(SepWin())
 
-            variable.res_score = 0
-            variable.sep_score = 0
-            variable.res_count = 0
-            variable.sep_count = 0
-            variable.total_score = 0
-
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
-        for i in self.field:
-            if type(i) == Hero and i.get_side() == variable.side:
-                return None
+        if type(unit) == Hero:
+            for i in self.field:
+                for j in i:
+                    if type(j) == Hero and j.get_side() == variable.side:
+                        return
         if variable.side == RES:
             if variable.res_score >= unit.cost:
                 if self.field[0][0] is None:
@@ -335,6 +325,12 @@ class Board:  # Класс игрового поля
             if 174 <= x <= 542 and 100 <= y <= 500:
                 variable.game_state = 2
 
+                variable.res_score = 0
+                variable.sep_score = 0
+                variable.res_count = 0
+                variable.sep_count = 0
+                variable.total_score = 0
+
                 self.field.clear()
                 self.all_units.empty()
                 for _ in range(10):
@@ -363,6 +359,12 @@ class Board:  # Класс игрового поля
                             unit.rect.y = y * 64 - 32
             if 544 <= x <= 912 and 100 <= y <= 500:
                 variable.game_state = 2
+
+                variable.res_score = 0
+                variable.sep_score = 0
+                variable.res_count = 0
+                variable.sep_count = 0
+                variable.total_score = 0
 
                 self.field.clear()
                 self.all_units.empty()
