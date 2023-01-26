@@ -43,15 +43,16 @@ class Board:  # Класс игрового поля
         self.all_pause_ui = pygame.sprite.Group(Continue(), Exit())
         self.vertical_borders = pygame.sprite.Group()
         self.horizontal_borders = pygame.sprite.Group()
-        self.physics = pygame.sprite.Group(Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders))
+        self.balls = pygame.sprite.Group()
+        self.physics = pygame.sprite.Group(Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, 5, 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
