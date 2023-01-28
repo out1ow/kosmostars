@@ -48,10 +48,6 @@ class Board:  # Класс игрового поля
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders),
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders),
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
