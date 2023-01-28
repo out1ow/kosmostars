@@ -43,15 +43,12 @@ class Board:  # Класс игрового поля
         self.all_pause_ui = pygame.sprite.Group(Continue(), Exit())
         self.vertical_borders = pygame.sprite.Group()
         self.horizontal_borders = pygame.sprite.Group()
-        self.physics = pygame.sprite.Group(Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.horizontal_borders, self.vertical_borders))
+        self.balls = pygame.sprite.Group()
+        self.physics = pygame.sprite.Group(Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, 5, 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
@@ -152,10 +149,10 @@ class Board:  # Класс игрового поля
 
         if variable.side == RES:
             self.units_cards = self.res_units_cards
-            variable.sep_score += 50
+            variable.res_score += 50
         else:
             self.units_cards = self.sep_units_cards
-            variable.res_score += 50
+            variable.sep_score += 50
             variable.total_score += 50
 
         if variable.res_count == 10:
@@ -168,6 +165,11 @@ class Board:  # Класс игрового поля
             self.all_win_ui.add(SepWin())
 
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
+        if type(unit) == Hero:
+            for i in self.field:
+                for j in i:
+                    if type(j) == Hero and j.get_side() == variable.side:
+                        return
         if variable.side == RES:
             if variable.res_score >= unit.cost:
                 if self.field[0][0] is None:
@@ -320,6 +322,12 @@ class Board:  # Класс игрового поля
             if 174 <= x <= 542 and 100 <= y <= 500:
                 variable.game_state = 2
 
+                variable.res_score = 0
+                variable.sep_score = 0
+                variable.res_count = 0
+                variable.sep_count = 0
+                variable.total_score = 0
+
                 self.field.clear()
                 self.all_units.empty()
                 for _ in range(10):
@@ -348,6 +356,12 @@ class Board:  # Класс игрового поля
                             unit.rect.y = y * 64 - 32
             if 544 <= x <= 912 and 100 <= y <= 500:
                 variable.game_state = 2
+
+                variable.res_score = 0
+                variable.sep_score = 0
+                variable.res_count = 0
+                variable.sep_count = 0
+                variable.total_score = 0
 
                 self.field.clear()
                 self.all_units.empty()

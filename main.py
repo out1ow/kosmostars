@@ -60,6 +60,8 @@ def main():
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         variable.game_state = 3
+                        code = []
+                        index = 0
                 elif event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
                     if 900 <= x <= 1047 and 550 <= y <= 592:

@@ -1,6 +1,6 @@
 import random
 
-from variable import RES, side, RED, pygame
+from variable import RES, side, RED, pygame, WHITE
 
 
 class CurrentMove(pygame.sprite.Sprite):
@@ -289,29 +289,44 @@ class Animation(pygame.sprite.Sprite):
         self.image = self.images[self.index]
 
     def update(self):
-        self.index += 1
+        self.index += 0.25
         if self.index >= len(self.images):
             self.index = 0
-        self.image = self.images[self.index]
+        self.image = self.images[int(self.index)]
 
 
 class Ball(pygame.sprite.Sprite):
-    def __init__(self, horizontal_borders, vertical_borders):
-        super().__init__()
-        self.image = pygame.Surface((40, 40), 32)
-        pygame.draw.circle(self.image, RED, (20, 20), 20)
-        self.rect = pygame.Rect(random.randint(100, 900), random.randint(100, 600), 40, 40)
-        self.vx = random.randint(-10, 10)
-        self.vy = random.randrange(-10, 10)
-        self.borders = [horizontal_borders, vertical_borders]
+    def __init__(self, balls, horizontal_borders, vertical_borders):
+        super().__init__(balls)
+        self.image = pygame.Surface((60, 60), pygame.SRCALPHA, 32)
+        pygame.draw.circle(self.image, RED, (30, 30), 30)
+        self.rect = pygame.Rect(random.randint(100, 900), random.randint(100, 600), 60, 60)
+        self.vx = random.choice([-5, 5])
+        self.vy = random.choice([-5, 5])
+        self.collision = [horizontal_borders, vertical_borders, balls]
 
     def update(self):
-        self.rect = self.rect.move(self.vx, self.vy)
-        self.rect = self.rect.move(self.vx, self.vy)
-        if pygame.sprite.spritecollideany(self, self.borders[0]):
-            self.vy = -self.vy
-        if pygame.sprite.spritecollideany(self, self.borders[1]):
+        if pygame.sprite.spritecollideany(self, self.collision[2]) and \
+                pygame.sprite.spritecollideany(self, self.collision[2]) != self:
+            ball = pygame.sprite.spritecollideany(self, self.collision[2])
+
+            ball.vx = -ball.vx
+            ball.vy = -ball.vy
+
             self.vx = -self.vx
+            self.vy = -self.vy
+
+            pygame.draw.circle(self.image,
+                               (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), (30, 30), 30)
+        if pygame.sprite.spritecollideany(self, self.collision[0]):
+            self.vy = -self.vy
+            pygame.draw.circle(self.image,
+                               (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), (30, 30), 30)
+        if pygame.sprite.spritecollideany(self, self.collision[1]):
+            self.vx = -self.vx
+            pygame.draw.circle(self.image,
+                               (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), (30, 30), 30)
+        self.rect = self.rect.move(self.vx, self.vy)
 
 
 class Border(pygame.sprite.Sprite):
