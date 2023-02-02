@@ -1,5 +1,3 @@
-import pygame
-
 import variable
 from save import Saves
 from variable import *
@@ -149,11 +147,11 @@ class Board:  # Класс игрового поля
 
         if variable.side == RES:
             self.units_cards = self.res_units_cards
-            variable.res_score += 50
+            variable.res_score += 10
         else:
             self.units_cards = self.sep_units_cards
-            variable.sep_score += 50
-            variable.total_score += 50
+            variable.sep_score += 10
+            variable.total_score += 10
 
         if variable.res_count == 10:
             variable.game_state = 4
@@ -240,10 +238,10 @@ class Board:  # Класс игрового поля
         self.field[y2][x2].hp -= self.field[y1][x1].damage
 
         if side == RES:
-            variable.res_score += 10
-            variable.total_score += 10
+            variable.res_score += 20
+            variable.total_score += 20
         else:
-            variable.sep_score += 10
+            variable.sep_score += 20
 
         if self.field[y2][x2].is_dead():
             self.kill_unit(target_cell)
@@ -254,10 +252,10 @@ class Board:  # Класс игрового поля
         self.field[y][x] = None
 
         if side == RES:
-            variable.res_score += 20
-            variable.total_score += 20
+            variable.res_score += 50
+            variable.total_score += 50
         else:
-            variable.sep_score += 20
+            variable.sep_score += 50
 
     def get_cell_cords(self, mouse_pos):
         x, y = mouse_pos
