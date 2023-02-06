@@ -43,6 +43,6 @@ pygame.display.set_icon(pygame.image.load('sources/icon/icon.png'))
 
 font = pygame.font.Font('sources/font/m5x7.ttf', 60)
 
-pygame.mixer.music.load('sources/music/main_theme.mp3')
+pygame.mixer.music.load('sources/music/main_theme.ogg')
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.set_volume(0.3)

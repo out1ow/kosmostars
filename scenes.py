@@ -23,13 +23,15 @@ class MainMenuScene:
         if 471 <= x <= 618 and 279 <= y <= 321:
             variable.game_state = 1
         elif 471 <= x <= 618 and 331 <= y <= 373:
+            try:
+                board.field.clear()
+                board.game_scene.units.empty()
+                for _ in range(10):
+                    board.field.append([None] * 10)
+                board.save.load(board)
+            except Exception:
+                return
             variable.game_state = 2
-
-            board.field.clear()
-            board.game_scene.units.empty()
-            for _ in range(10):
-                board.field.append([None] * 10)
-            board.save.load(board)
 
             for y in range(1, 11):
                 for x in range(1, 11):
