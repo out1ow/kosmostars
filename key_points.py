@@ -21,13 +21,13 @@ class KeyPoint(pygame.sprite.Sprite):
     def change_side(self, side=None):
         if side == RES:
             self.image = self.res_sprite
-            variable.res_count += 1
+            variable.res_count += 0.5
             variable.res_score += 30
             variable.total_score += 30
             self.side = RES
         elif side == SEP:
             self.image = self.sep_sprite
-            variable.sep_count += 1
+            variable.sep_count += 0.5
             variable.sep_score += 30
             self.side = SEP
         else:
