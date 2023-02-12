@@ -23,7 +23,6 @@ sep_count = 0
 
 res_score = 0  # Количество очков, заработанных за игру
 sep_score = 0
-total_score = 0
 
 side = RES  # Чей ход
 

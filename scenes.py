@@ -186,10 +186,12 @@ class GameScene:
                 if variable.side == SEP:
                     variable.game_state = 4
                     board.win_scene.background = board.win_scene.res_win_background
+                    board.win_scene.total_score = font.render(str(variable.res_score), True, (128, 128, 128))
                     board.win_scene.ui.add(ResWin())
                 elif variable.side == RES:
                     variable.game_state = 4
                     board.win_scene.background = board.win_scene.sep_win_background
+                    board.win_scene.total_score = font.render(str(variable.sep_score), True, (128, 128, 128))
                     board.win_scene.ui.add(SepWin())
 
             elif 710 <= x <= 857 and 140 <= y <= 200:
@@ -249,7 +251,6 @@ class WinScene:
     def render(self):
         screen.blit(self.background, (0, 0))
         self.ui.draw(screen)
-        self.total_score = font.render(str(variable.total_score), True, (128, 128, 128))
         screen.blit(self.total_score, (600, 70))
 
     def get_click(self, mouse_pos, board):

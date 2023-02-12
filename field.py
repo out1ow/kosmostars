@@ -79,7 +79,6 @@ class Board:
         else:
             self.game_scene.units_cards = self.game_scene.sep_units_cards
             variable.sep_score += 10
-            variable.total_score += 10
 
         if variable.res_count == 10:
             variable.game_state = 4
@@ -167,7 +166,6 @@ class Board:
 
         if side == RES:
             variable.res_score += 20
-            variable.total_score += 20
         else:
             variable.sep_score += 20
 
@@ -181,7 +179,6 @@ class Board:
 
         if side == RES:
             variable.res_score += 50
-            variable.total_score += 50
         else:
             variable.sep_score += 50
 
