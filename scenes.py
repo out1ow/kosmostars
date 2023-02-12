@@ -60,6 +60,7 @@ class LevelMenuScene:
         if 174 <= x <= 542 and 100 <= y <= 500:
             variable.game_state = 2
 
+            variable.side = RES
             variable.res_score = 0
             variable.sep_score = 0
             variable.res_count = 0
@@ -182,9 +183,14 @@ class GameScene:
             if 900 <= x <= 1047 and 550 <= y <= 592:
                 board.change_side()
             elif 900 <= x <= 1047 and 600 <= y <= 642:
-                variable.game_state = 4
-                board.win_scene.background = board.win_scene.sep_win_background
-                board.win_scene.ui.add(SepWin())
+                if variable.side == SEP:
+                    variable.game_state = 4
+                    board.win_scene.background = board.win_scene.res_win_background
+                    board.win_scene.ui.add(ResWin())
+                elif variable.side == RES:
+                    variable.game_state = 4
+                    board.win_scene.background = board.win_scene.sep_win_background
+                    board.win_scene.ui.add(SepWin())
 
             elif 710 <= x <= 857 and 140 <= y <= 200:
                 board.spawn(Trooper(variable.side))
