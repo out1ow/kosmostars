@@ -52,7 +52,6 @@ class Saves:
         self.file['sep_count'] = variable.sep_count
         self.file['res_score'] = variable.res_score
         self.file['sep_score'] = variable.sep_score
-        self.file['total_score'] = variable.total_score
 
     def load(self, board):
         field_copy = self.file['field']
@@ -91,7 +90,6 @@ class Saves:
         variable.sep_count = self.file['sep_count']
         variable.res_score = self.file['res_score']
         variable.sep_score = self.file['sep_score']
-        variable.total_score = self.file['total_score']
 
     def __del__(self):
         self.file.close()
