@@ -168,7 +168,7 @@ class GameScene:
         pygame.draw.rect(screen, BLUE, (725, 90, 300 * (variable.res_count / 10) + 2, 10))
         pygame.draw.rect(screen, RED, (725, 105, 300 * (variable.sep_count / 10) + 2, 10))
 
-        if side == RES:
+        if variable.side == RES:
             self.score = font.render(str(variable.res_score), True, (128, 128, 128))
         else:
             self.score = font.render(str(variable.sep_score), True, (128, 128, 128))

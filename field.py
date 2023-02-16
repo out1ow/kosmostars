@@ -27,6 +27,7 @@ class Board:
         self.win_scene = WinScene()
 
     def render(self):
+        screen.fill(BLACK)
         if variable.game_state == 0:
             self.main_menu_scene.render()
 
