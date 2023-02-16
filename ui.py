@@ -296,11 +296,11 @@ class Animation(pygame.sprite.Sprite):
 
 
 class Ball(pygame.sprite.Sprite):
-    def __init__(self, balls, horizontal_borders, vertical_borders):
+    def __init__(self, balls, horizontal_borders, vertical_borders, x, y):
         super().__init__(balls)
         self.image = pygame.Surface((60, 60), pygame.SRCALPHA, 32)
         pygame.draw.circle(self.image, RED, (30, 30), 30)
-        self.rect = pygame.Rect(random.randint(100, 900), random.randint(100, 600), 60, 60)
+        self.rect = pygame.Rect(x, y, 60, 60)
         self.vx = random.choice([-5, 5])
         self.vy = random.choice([-5, 5])
         self.collision = [horizontal_borders, vertical_borders, balls]

@@ -208,11 +208,11 @@ class PauseScene:
         self.vertical_borders = pygame.sprite.Group()
         self.horizontal_borders = pygame.sprite.Group()
         self.balls = pygame.sprite.Group()
-        self.physics = pygame.sprite.Group(Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders))
+        self.physics = pygame.sprite.Group(Ball(self.balls, self.horizontal_borders, self.vertical_borders, 100, 100),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders, 150, 150),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders, 300, 300),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders, 200, 200),
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders ,500, 500))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, 5, 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
