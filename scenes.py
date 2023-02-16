@@ -65,7 +65,7 @@ class LevelMenuScene:
             variable.sep_score = 0
             variable.res_count = 0
             variable.sep_count = 0
-            variable.total_score = 0
+            board.game_scene.key_point.sprites()[0].change_side()
 
             board.field.clear()
             board.game_scene.units.empty()
@@ -100,7 +100,7 @@ class LevelMenuScene:
             variable.sep_score = 0
             variable.res_count = 0
             variable.sep_count = 0
-            variable.total_score = 0
+            board.game_scene.key_point.sprites()[0].change_side()
 
             board.field.clear()
             board.game_scene.units.empty()

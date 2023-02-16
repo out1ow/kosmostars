@@ -15,7 +15,7 @@ SEP = 1  # SEP - сепаратисты
 running = True
 
 KONAMI = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_LEFT,
-          pygame.K_RIGHT, pygame.K_b, pygame.K_a]
+          pygame.K_RIGHT, pygame.K_b, pygame.K_a]  # ↑↑ ↓↓ ←→ ←→ B A
 is_konami = False
 
 res_count = 0  # Подсчёт количества ходов в течении которых контрольная точка захвачена

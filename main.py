@@ -102,7 +102,7 @@ def main():
                         board.pause_scene.ui.sprites()[1].select()
                     else:
                         board.pause_scene.ui.sprites()[1].unselect()
-                elif event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:  # ↑↑ ↓↓ ←→ ←→ B A
                     if event.key == KONAMI[index]:
                         code.append(event.key)
                         index += 1

@@ -84,10 +84,12 @@ class Board:
             variable.game_state = 4
             self.win_scene.background = self.win_scene.res_win_background
             self.win_scene.ui.add(ResWin())
+            self.win_scene.total_score = font.render(str(variable.res_score), True, (128, 128, 128))
         elif variable.sep_count == 10:
             variable.game_state = 4
             self.win_scene.background = self.win_scene.sep_win_background
             self.win_scene.ui.add(SepWin())
+            self.win_scene.total_score = font.render(str(variable.sep_score), True, (128, 128, 128))
 
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
         if type(unit) == Hero:
