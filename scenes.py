@@ -212,7 +212,7 @@ class PauseScene:
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders, 150, 150),
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders, 300, 300),
                                            Ball(self.balls, self.horizontal_borders, self.vertical_borders, 200, 200),
-                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders ,500, 500))
+                                           Ball(self.balls, self.horizontal_borders, self.vertical_borders, 500, 500))
         Border(self.physics, 5, 5, WIDTH - 5, 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, HEIGHT - 5, WIDTH - 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
         Border(self.physics, 5, 5, 5, HEIGHT - 5, self.horizontal_borders, self.vertical_borders),
