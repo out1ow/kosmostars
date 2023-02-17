@@ -76,10 +76,10 @@ class Board:
 
         if variable.side == RES:
             self.game_scene.units_cards = self.game_scene.res_units_cards
-            variable.res_score += 10
+            variable.sep_score += 10
         else:
             self.game_scene.units_cards = self.game_scene.sep_units_cards
-            variable.sep_score += 10
+            variable.res_score += 10
 
         if variable.res_count == 10:
             variable.game_state = 4
@@ -91,6 +91,7 @@ class Board:
             self.win_scene.background = self.win_scene.sep_win_background
             self.win_scene.ui.add(SepWin())
             self.win_scene.total_score = font.render(str(variable.sep_score), True, (128, 128, 128))
+        print(variable.res_score, variable.sep_score)
 
     def spawn(self, unit):  # Спавнит нового юнита в конкретной точке
         if type(unit) == Hero:
@@ -167,7 +168,7 @@ class Board:
         self.field[y1][x1].is_attacked = True
         self.field[y2][x2].hp -= self.field[y1][x1].damage
 
-        if side == RES:
+        if variable.side == RES:
             variable.res_score += 20
         else:
             variable.sep_score += 20
@@ -180,7 +181,7 @@ class Board:
         self.field[y][x].kill()
         self.field[y][x] = None
 
-        if side == RES:
+        if variable.side == RES:
             variable.res_score += 50
         else:
             variable.sep_score += 50

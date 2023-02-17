@@ -1,6 +1,7 @@
 import random
 
-from variable import RES, side, RED, pygame, WHITE
+import variable
+from variable import RES, RED, pygame, WHITE
 
 
 class CurrentMove(pygame.sprite.Sprite):
@@ -9,7 +10,7 @@ class CurrentMove(pygame.sprite.Sprite):
 
         self.res_sprite = pygame.image.load('sources/sprites/ui/current_move/res_move.png')
         self.sep_sprite = pygame.image.load('sources/sprites/ui/current_move/sep_move.png')
-        if side == RES:
+        if variable.side == RES:
             self.image = self.res_sprite
         else:
             self.image = self.sep_sprite
@@ -18,10 +19,10 @@ class CurrentMove(pygame.sprite.Sprite):
         self.rect.y = 32
 
     def change_side(self):
-        if self.image == self.res_sprite:
-            self.image = self.sep_sprite
-        else:
+        if variable.side == RES:
             self.image = self.res_sprite
+        else:
+            self.image = self.sep_sprite
 
 
 class ChooseLevel(pygame.sprite.Sprite):

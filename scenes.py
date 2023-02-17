@@ -26,6 +26,7 @@ class MainMenuScene:
             try:
                 board.field.clear()
                 board.game_scene.units.empty()
+                board.game_scene.ui.empty()
                 for _ in range(10):
                     board.field.append([None] * 10)
                 board.save.load(board)
@@ -66,6 +67,7 @@ class LevelMenuScene:
             variable.res_count = 0
             variable.sep_count = 0
             board.game_scene.key_point.sprites()[0].change_side()
+            board.game_scene.ui.sprites()[2].change_side()
 
             board.field.clear()
             board.game_scene.units.empty()
@@ -75,6 +77,7 @@ class LevelMenuScene:
             board.field[1][0] = Trooper(RES)
             board.field[0][0] = Trooper(RES)
 
+            board.field[8][8] = Trooper(SEP)
             board.field[9][8] = Trooper(SEP)
             board.field[8][9] = Trooper(SEP)
             board.field[9][9] = Trooper(SEP)
@@ -96,11 +99,13 @@ class LevelMenuScene:
         if 544 <= x <= 912 and 100 <= y <= 500:
             variable.game_state = 2
 
+            variable.side = RES
             variable.res_score = 0
             variable.sep_score = 0
             variable.res_count = 0
             variable.sep_count = 0
             board.game_scene.key_point.sprites()[0].change_side()
+            board.game_scene.ui.sprites()[2].change_side()
 
             board.field.clear()
             board.game_scene.units.empty()
@@ -110,6 +115,7 @@ class LevelMenuScene:
             board.field[1][0] = Trooper(RES)
             board.field[0][0] = Trooper(RES)
 
+            board.field[8][8] = Trooper(SEP)
             board.field[9][8] = Trooper(SEP)
             board.field[8][9] = Trooper(SEP)
             board.field[9][9] = Trooper(SEP)
